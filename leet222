@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        if(root==nullptr) return 0;
+        
+        TreeNode *left=root,*right=root;
+        int lCnt=0,rCnt=0;
+        while(left!=nullptr)
+        {
+            left=left->left;
+            lCnt++;
+        }
+
+        while(right!=nullptr)
+        {
+            right=right->right;
+            rCnt++;
+        }
+
+        if(lCnt==rCnt)
+        {
+            return pow(2,lCnt)-1;
+        }
+        else
+        {
+            return 1+countNodes(root->left)+countNodes(root->right);
+        }
+    }
+};
