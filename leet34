@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int ret=searchLeft(nums,target);
+        if(ret==-1)
+        {
+            return vector<int>{-1,-1};
+        }
+        else
+        {
+            int ret2=searchRight(nums,target);
+            return vector<int>{ret,ret2};
+        }
+    }
+
+    int searchLeft(vector<int>& nums, int target)
+    {
+        int left=0,right=nums.size();
+        while(left<right)
+        {
+            int mid=left+(right-left)/2;
+            if(nums[mid]==target)
+                right=mid;
+            else if(nums[mid]>target)
+                right=mid;
+            else
+                left=mid+1;
+        }
+        if(left==nums.size()||nums[left]!=target)
+            return -1;
+        else
+            return left;
+    }
+
+    int searchRight(vector<int>& nums, int target)
+    {
+        int left=0,right=nums.size();
+        while(left<right)
+        {
+            int mid=left+(right-left)/2;
+            if(nums[mid]==target)
+                left=mid+1;
+            else if(nums[mid]>target)
+                right=mid;
+            else
+                left=mid+1;
+        }
+        if(left==0||nums[left-1]!=target)
+            return -1;
+        else
+            return left-1;
+    }
+};
