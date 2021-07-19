@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<int> advantageCount(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res;
+        res.resize(nums1.size());
+        sort(nums1.rbegin(),nums1.rend());
+        
+        vector<pair<int,int>> dict;
+        for(int i=0;i<nums2.size();i++)
+        {
+            dict.emplace_back(make_pair(nums2[i],i));
+        }
+        sort(dict.begin(),dict.end(),
+        [](const pair<int,int>& lhs,const pair<int,int>& rhs)
+        {
+            return lhs.first > rhs.first;
+        });
+
+        int left=0,right=nums1.size()-1;
+        for(auto& pair:dict)
+        {
+            if(left>right) break;
+            if(pair.first>=nums1[left])
+            {
+                res[pair.second]=nums1[right];
+                right--;
+            }
+            else
+            {
+                res[pair.second]=nums1[left];
+                left++;
+            }
+        }
+        return res;
+    }
+};
