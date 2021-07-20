@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int left=1,right=pow(10,9);
+        while(left<right)
+        {
+            int mid=left+(right-left)/2;
+            int tempH=f(piles,mid);
+            if(tempH==h)
+                right=mid;
+            else if(tempH>h)
+                left=mid+1;
+            else
+                right=mid;
+        }
+        return left;
+    }
+
+    int f(vector<int>& piles,int K)
+    {
+        int H=0;
+        for(int i=0;i<piles.size();i++)
+        {
+            H+=piles[i]/K;
+            if(piles[i]%K>0)
+                H++;
+        }
+        return H;
+    }
+};
