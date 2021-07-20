@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int left=0,right=1;
+        for(auto& elem:weights)
+        {
+            left=max(left,elem);
+            right+=elem;
+        }
+
+        while(left<right)
+        {
+            int mid=left+(right-left)/2;
+            int tempDay=f(weights,mid);
+            if(tempDay==days)
+                right=mid;
+            else if(tempDay>days)
+                left=mid+1;
+            else
+                right=mid;
+        }
+        return left;
+    }
+
+    int f(vector<int>& weights,int capicity)
+    {
+        int D=0;
+        int tempSum=0;
+        for(int i=0;i<weights.size();i++)
+        {
+            if(tempSum+weights[i]<=capicity)
+                tempSum+=weights[i];
+            else
+            {
+                tempSum=weights[i];
+                D++;
+            }
+        }
+        D++;
+        return D;
+    }
+};
