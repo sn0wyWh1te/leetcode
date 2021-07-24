@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> memo(amount+1,0);
+        if(amount<1) return 0;
+        return helper(memo,coins,amount);
+    }
+
+    int helper(vector<int>& memo,vector<int>& coins,int amount)
+    {
+        if(amount==0) return 0;
+        if(amount<0) return -1;
+        if(memo[amount]!=0)
+            return memo[amount];
+
+        int res=INT_MAX;
+        for(int& elem:coins)
+        {
+            int temp=helper(memo,coins,amount-elem);
+            if(temp<0) continue;
+            if(temp<res)
+                res=temp+1;
+        }
+        memo[amount] = (res==INT_MAX?-1:res);
+        return memo[amount];
+    }
+};
