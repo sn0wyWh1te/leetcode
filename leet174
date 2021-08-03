@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> memo;
+
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        memo.resize(dungeon.size());
+        int i=0;
+        for(auto &vec:dungeon)
+        {
+            memo[i].resize(dungeon[i].size(),-5);
+            i++;        
+        }
+        memo[dungeon.size()-1][dungeon[0].size()-1]=
+        dungeon[dungeon.size()-1][dungeon[0].size()-1]>0?1:-dungeon[dungeon.size()-1][dungeon[0].size()-1]+1;
+        return dp(dungeon,0,0);
+    }
+
+    int dp(vector<vector<int>>& dungeon,int i,int j)
+    {
+        if(i==dungeon.size()-1 && j==dungeon[0].size()-1)
+            return memo[i][j];
+        
+        if(i>dungeon.size()-1 || j>dungeon[0].size()-1) return INT_MAX;
+
+        if(memo[i][j]!=-5) return memo[i][j];
+
+        int res=0;
+        res=min(dp(dungeon,i+1,j),dp(dungeon,i,j+1));
+        if(res-dungeon[i][j]>0)
+            memo[i][j]=res-dungeon[i][j];
+        else
+            memo[i][j]=1;
+        return memo[i][j];
+    }
+};
